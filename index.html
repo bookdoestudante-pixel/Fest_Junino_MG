@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Festival Junino - Mesas</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand"><strong>Festival Junino</strong><span>Escolha sua mesa</span></div>
+    <div id="modoAviso" class="modo-aviso">👤 Cliente</div>
+    <div class="actions"><a class="btn-link" href="vendedor.html">Sou vendedor</a><a class="btn-link" href="admin.html">Admin</a></div>
+  </div>
+
+  <main class="app full">
+    <section class="mapa-card">
+      <div class="mapa-wrap">
+        <img src="assets/croqui.png" alt="Croqui do Festival Junino" id="croquiImg" />
+        <div id="overlayMesas"></div>
+        <div id="overlayInfo">
+          <div id="txtValor" class="info-img valor"></div>
+          <div id="txtData" class="info-img data"></div>
+          <div id="txtHorario" class="info-img horario"></div>
+          <div id="txtLocal" class="info-img local"></div>
+          <div id="txtAtualizacao" class="info-img atualizacao"></div>
+          <div id="txtVendedores" class="vendedores-img"></div>
+        </div>
+      </div>
+      <div class="legenda">
+        <span><i class="dot livre"></i> Livre</span>
+        <span><i class="dot reservada"></i> Reservada</span>
+        <span><i class="dot pendente"></i> Aguardando validação</span>
+        <span><i class="dot vendida"></i> Vendida</span>
+      </div>
+      <p id="clienteAviso" class="aviso"></p>
+    </section>
+  </main>
+
+  <dialog id="modalMesa">
+    <form method="dialog" class="modal">
+      <h2 id="tituloMesa">Mesa</h2>
+      <label>Nome do comprador<input id="mesaComprador" placeholder="Nome completo" /></label>
+      <label>Número de telefone<input id="mesaContato" placeholder="DDD + número" /></label>
+      <label>Vendedor responsável<select id="mesaVendedor"></select></label>
+      <label>Pagamento<select id="mesaPagamento"><option value="">Selecione</option><option value="Pix">Pix</option><option value="Transferência">Transferência</option></select></label>
+      <label>Comprovante de pagamento<input id="mesaComprovante" type="file" accept="image/*,.pdf" /></label>
+      <p id="nomeComprovante" class="hint"></p>
+      <div id="tempoReserva" class="tempo-reserva"></div>
+      <div id="msgVendedorBox" class="msg-vendedor-box"></div>
+      <div class="modal-actions"><button id="salvarMesa" value="cancel" class="primary">Enviar compra</button><button id="cancelarMesa" value="cancel">Cancelar</button></div>
+      <p id="avisoMesa" class="aviso"></p>
+    </form>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="api.js"></script>
+  <script src="common.js"></script>
+  <script src="cliente.js"></script>
+</body>
+</html>

@@ -140,34 +140,38 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 
 /* LEGENDA COMPACTA */
 .legenda {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px 12px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9998;
 
-  padding: 6px 8px;
-  margin-top: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 18px;
 
-  font-size: 13px;
-  font-weight: 800;
+  background: #fff7e8;
+  border-top: 2px solid #dec08a;
+  padding: 10px 90px 10px 18px;
+
+  font-weight: 900;
+  font-size: 16px;
+  box-shadow: 0 -4px 14px rgba(0,0,0,.18);
 }
 
 .legenda span {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
 }
 
-/* bolinhas menores */
 .dot {
-  width: 10px;
-  height: 10px;
-  min-width: 10px;
-  min-height: 10px;
-
+  width: 18px;
+  height: 18px;
+  display: inline-block;
   border-radius: 50%;
-  border: 1.5px solid #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  border: 2px solid white;
+  box-shadow: 0 1px 5px rgba(0,0,0,.35);
 }
 
 .vendedores-img {

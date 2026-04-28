@@ -155,26 +155,41 @@ button:disabled { opacity:.55; cursor:not-allowed; }
   z-index:7;
   display:flex;
   flex-direction:column;
-  gap:5px;
+  gap:3px;
   pointer-events:none;
 }
 
 .vendedores-img a {
+  width:100%;
   display:flex;
   align-items:center;
   justify-content:center;
+
   background:#25D366;
   border-radius:999px;
-  padding:6px 10px;
-  min-height:30px;
+
+  padding:4px 5px;
+  min-height:auto;
+
   color:white;
-  font-weight:700;
-  font-size:clamp(9px, 1vw, 13px);
+  font-weight:800;
+
+  font-size:clamp(6px, 1vw, 11px);
+  line-height:1.1;
+
   text-decoration:none;
   text-align:center;
+
   box-shadow:0 2px 6px rgba(0,0,0,.3);
+
   pointer-events:auto;
   cursor:pointer;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+  transition:0.2s;
 }
 
 .vendedores-img a:hover {
@@ -231,16 +246,18 @@ button:disabled { opacity:.55; cursor:not-allowed; }
     font-size: clamp(8px, 1.8vw, 12px);
   }
 
-  .vendedores-img {
-    top: 75%;
-    left: 70%;
-    width: 28%;
-  }
+.vendedores-img {
+  top:76%;
+  left:72%;
+  width:24%;
+  gap:2px;
+}
 
-  .vendedores-img a {
-    font-size: 10px;
-    padding: 6px;
-  }
+.vendedores-img a {
+  font-size:clamp(5px, 1.45vw, 8px);
+  padding:3px 3px;
+  line-height:1;
+}
 }
 
 .painel {

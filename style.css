@@ -2,12 +2,21 @@
 
 * { box-sizing: border-box; }
 
-body { margin:0; font-family:Arial, Helvetica, sans-serif; background:#f0dfbf; color:#17202a; }
+body {
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#f0dfbf;
+  color:#17202a;
+  padding-top:58px;
+  padding-bottom:68px;
+}
 
 .topbar {
-  position:sticky;
+  position:fixed;
   top:0;
-  z-index:50;
+  left:0;
+  right:0;
+  z-index:10000;
   background:var(--dark);
   color:#fff;
   display:flex;
@@ -40,7 +49,6 @@ button, .btn-link {
 
 button.primary { background:#1d7d43; color:white; }
 button.danger { background:#8d2020; color:white; }
-
 button:disabled { opacity:.55; cursor:not-allowed; }
 
 .modo-aviso {
@@ -72,8 +80,22 @@ button:disabled { opacity:.55; cursor:not-allowed; }
   box-shadow:0 5px 18px #0002;
 }
 
-.mapa-card { padding:10px; }
+.mapa-card {
+  padding:10px;
+  overflow:hidden;
+  touch-action:none;
+}
 
+.mapa-wrap {
+  position:relative;
+  width:100%;
+  line-height:0;
+  overflow:hidden;
+  border-radius:12px;
+  background:#fff;
+  transform-origin:0 0;
+  will-change:transform;
+}
 
 #croquiImg { width:100%; display:block; }
 
@@ -104,7 +126,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 .info-img.local { top:51%; left:78%; }
 .info-img.atualizacao { top:67.8%; left:75.8%; font-size:clamp(8px,1vw,12px); }
 
-/* MESAS RESPONSIVAS */
 .mesa-btn {
   position:absolute;
   width:4.8%;
@@ -130,37 +151,52 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 .mesa-btn.vendida { background:var(--vendida); }
 .mesa-btn.pendente { background:#7dd3fc; color:#07304a; }
 
-/* LEGENDA COMPACTA */
 .legenda {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px 12px;
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:9998;
 
-  padding: 6px 8px;
-  margin-top: 4px;
+  background:#fff7e8;
+  border-top:2px solid #dec08a;
 
-  font-size: 13px;
-  font-weight: 800;
+  display:grid;
+  grid-template-columns:repeat(2, minmax(120px, 1fr));
+  gap:8px 14px;
+  align-items:center;
+  justify-items:start;
+
+  padding:8px 90px 8px 12px;
+  margin:0;
+
+  font-size:13px;
+  font-weight:900;
+  line-height:1.2;
 }
 
 .legenda span {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  white-space:nowrap;
 }
 
-/* bolinhas menores */
 .dot {
-  width: 10px;
-  height: 10px;
-  min-width: 10px;
-  min-height: 10px;
-
-  border-radius: 50%;
-  border: 1.5px solid #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  width:14px;
+  height:14px;
+  min-width:14px;
+  min-height:14px;
+  display:inline-block;
+  border-radius:50%;
+  border:2px solid #fff;
+  box-shadow:0 1px 4px rgba(0,0,0,.35);
 }
+
+.dot.livre { background:var(--livre); }
+.dot.reservada { background:var(--reservada); }
+.dot.pendente { background:#7dd3fc; }
+.dot.vendida { background:var(--vendida); }
 
 .vendedores-img {
   position:absolute;
@@ -179,31 +215,22 @@ button:disabled { opacity:.55; cursor:not-allowed; }
   display:flex;
   align-items:center;
   justify-content:center;
-
   background:#25D366;
   border-radius:999px;
-
   padding:4px 5px;
   min-height:auto;
-
   color:white;
   font-weight:800;
-
   font-size:clamp(6px, 1vw, 11px);
   line-height:1.1;
-
   text-decoration:none;
   text-align:center;
-
   box-shadow:0 2px 6px rgba(0,0,0,.3);
-
   pointer-events:auto;
   cursor:pointer;
-
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-
   transition:0.2s;
 }
 
@@ -212,474 +239,299 @@ button:disabled { opacity:.55; cursor:not-allowed; }
   transform:scale(1.03);
 }
 
-@media (max-width:600px) {
-  .topbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    padding: 10px;
-  }
-
-  .brand {
-    text-align: center;
-  }
-
-  .actions {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-  }
-
-  .actions a,
-  .actions button {
-    width: 100%;
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .modo-aviso {
-    text-align: center;
-    width: 100%;
-  }
-
-  .app {
-    padding: 4px;
-  }
-
-  .mapa-card {
-    padding: 4px;
-  }
-
-  .mesa-btn {
-    width: 5.2%;
-    font-size: clamp(6px, 1.9vw, 11px);
-    border-width: 1.5px;
-  }
-
-  .info-img {
-    font-size: clamp(8px, 1.8vw, 12px);
-  }
-
-.vendedores-img {
-  top:76%;
-  left:72%;
-  width:24%;
-  gap:2px;
-}
-
-.vendedores-img a {
-  font-size:clamp(5px, 1.45vw, 8px);
-  padding:3px 3px;
-  line-height:1;
-}
-}
-
 .painel {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
-.box {
-  padding: 14px;
-}
+.box { padding:14px; }
 
 .box h2,
 .box h3 {
-  color: var(--dark);
-  margin: 0 0 12px;
+  color:var(--dark);
+  margin:0 0 12px;
 }
 
 .admin-tools button {
-  width: 100%;
-  margin-bottom: 6px;
+  width:100%;
+  margin-bottom:6px;
 }
 
 .destaque {
-  border: 2px solid var(--dark);
-  background: #fffdf5;
+  border:2px solid var(--dark);
+  background:#fffdf5;
 }
 
 label {
-  font-weight: 800;
-  display: block;
-  margin: 10px 0 6px;
+  font-weight:800;
+  display:block;
+  margin:10px 0 6px;
 }
 
 input,
 select,
 textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #b99d70;
-  border-radius: 8px;
-  font-size: 15px;
-  background: white;
+  width:100%;
+  padding:10px;
+  border:1px solid #b99d70;
+  border-radius:8px;
+  font-size:15px;
+  background:white;
 }
 
 .check-admin {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  background: #fff;
-  border: 1px dashed #b99d70;
-  border-radius: 8px;
-  padding: 8px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  background:#fff;
+  border:1px dashed #b99d70;
+  border-radius:8px;
+  padding:8px;
 }
 
-.check-admin input {
-  width: auto;
-}
+.check-admin input { width:auto; }
 
 .linha-add {
-  display: grid;
-  grid-template-columns: 1fr 1fr 80px 45px;
-  gap: 6px;
-  align-items: end;
+  display:grid;
+  grid-template-columns:1fr 1fr 80px 45px;
+  gap:6px;
+  align-items:end;
 }
 
 .vendedor,
 .registro {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 6px;
-  align-items: center;
-  border-bottom: 1px dashed #c7a778;
-  padding: 8px 0;
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:6px;
+  align-items:center;
+  border-bottom:1px dashed #c7a778;
+  padding:8px 0;
 }
 
 .resumo-linha {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px dashed #c7a778;
-  padding: 6px 0;
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px dashed #c7a778;
+  padding:6px 0;
 }
 
 .hint,
 .aviso {
-  font-size: 12px;
-  color: var(--muted);
+  font-size:12px;
+  color:var(--muted);
 }
 
 .aviso {
-  color: #8d2020;
-  font-weight: 800;
+  color:#8d2020;
+  font-weight:800;
 }
 
-.hidden {
-  display: none !important;
-}
+.hidden { display:none !important; }
 
 .menu-acesso {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  background: #f0dfbf;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding:10px;
+  background:#f0dfbf;
 }
 
 .menu-acesso a {
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-weight: 800;
+  padding:10px 14px;
+  border-radius:10px;
+  font-weight:800;
 }
 
-@media (max-width:600px) {
-  .menu-acesso {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 8px;
-  }
-
-  .menu-acesso a {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-/* FAB MENU CORRIGIDO */
 .fab-menu {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
 }
 
 .fab-main {
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  background: #1d7d43;
-  color: #fff;
-  font-size: 34px;
-  line-height: 1;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0,0,0,.35);
-  transition: transform .25s ease, background .25s ease;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:#1d7d43;
+  color:#fff;
+  font-size:34px;
+  line-height:1;
+  border:none;
+  cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.35);
+  transition:transform .25s ease, background .25s ease;
 }
 
 .fab-main.open {
-  transform: rotate(45deg);
-  background: #203449;
+  transform:rotate(45deg);
+  background:#203449;
 }
 
 .fab-options {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 10px;
-  opacity: 0;
-  transform: translateY(15px);
-  pointer-events: none;
-  transition: opacity .25s ease, transform .25s ease;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-bottom:10px;
+  opacity:0;
+  transform:translateY(15px);
+  pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
 }
 
 .fab-options.show {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
 }
 
 .fab-options a {
-  background: #fff;
-  color: #203449;
-  text-decoration: none;
-  font-weight: 900;
-  padding: 10px 14px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,.25);
-  white-space: nowrap;
+  background:#fff;
+  color:#203449;
+  text-decoration:none;
+  font-weight:900;
+  padding:10px 14px;
+  border-radius:12px;
+  box-shadow:0 3px 10px rgba(0,0,0,.25);
+  white-space:nowrap;
 }
 
-/* LEGENDA DAS MESAS */
-.legenda {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(120px, 1fr));
-  gap: 8px 14px;
-  align-items: center;
-  justify-items: start;
-
-  padding: 12px 14px;
-  margin-top: 8px;
-
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 1.2;
+dialog {
+  border:0;
+  border-radius:16px;
+  padding:0;
+  max-width:480px;
+  width:92%;
 }
 
-.legenda span {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  white-space: nowrap;
+dialog::backdrop {
+  background:rgba(0,0,0,.55);
 }
 
-.dot {
-  width: 14px;
-  height: 14px;
-  min-width: 14px;
-  min-height: 14px;
-  display: inline-block;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,.35);
+.modal {
+  padding:16px;
+  background:#fff7e8;
 }
 
-.dot.livre {
-  background: var(--livre);
+.modal h2 {
+  margin:0 0 12px;
+  color:var(--dark);
 }
 
-.dot.reservada {
-  background: var(--reservada);
+.modal-actions {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:14px;
 }
 
-.dot.pendente {
-  background: #7dd3fc; /* azul claro */
+.validacao-box {
+  display:none;
+  background:#fff;
+  border:1px dashed #b99d70;
+  border-radius:10px;
+  padding:10px;
+  margin-top:10px;
 }
 
-.dot.vendida {
-  background: var(--vendida);
+.tempo-reserva,
+.msg-vendedor-box {
+  font-size:13px;
+  font-weight:800;
+  color:var(--dark);
+  margin-top:8px;
 }
 
-/* Celular */
-@media (max-width: 600px) {
-.legenda {
-  font-size: 11px;
-  padding: 4px 6px;
-  gap: 5px 10px;
-}
+@media (max-width:600px) {
+  body {
+    padding-top:72px;
+    padding-bottom:62px;
+  }
 
-.dot {
-  width: 8px;
-  height: 8px;
-}
-}
+  .topbar {
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    padding:10px;
+  }
 
-/* MAPA COM ZOOM SEM MEXER NAS BARRAS */
-.mapa-card {
-  overflow: auto;
-  max-height: calc(100vh - 150px);
-}
+  .brand { text-align:center; }
 
-/* controles de zoom */
-.zoom-controls {
-  position: sticky;
-  top: 0;
-  z-index: 30;
+  .actions {
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+  }
 
-  display: flex;
-  justify-content: center;
-  gap: 6px;
+  .actions a,
+  .actions button {
+    width:100%;
+    font-size:14px;
+    padding:8px;
+  }
 
-  padding: 6px;
-  background: rgba(255, 247, 232, 0.92);
-  border-radius: 10px;
-}
+  .modo-aviso {
+    text-align:center;
+    width:100%;
+  }
 
-.zoom-controls button {
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-weight: 900;
-  background: #203449;
-  color: white;
-}
+  .app {
+    padding:4px;
+  }
 
-/* legenda fixa embaixo */
-.legenda {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9998;
+  .mapa-card {
+    padding:4px;
+  }
 
-  background: #fff7e8;
-  border-top: 2px solid #dec08a;
+  .mesa-btn {
+    width:5.2%;
+    font-size:clamp(6px, 1.9vw, 11px);
+    border-width:1.5px;
+  }
 
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px 12px;
+  .info-img {
+    font-size:clamp(8px, 1.8vw, 12px);
+  }
 
-  padding: 8px 90px 8px 12px;
-  margin: 0;
+  .vendedores-img {
+    top:76%;
+    left:72%;
+    width:24%;
+    gap:2px;
+  }
 
-  font-size: 13px;
-  font-weight: 900;
-}
+  .vendedores-img a {
+    font-size:clamp(5px, 1.45vw, 8px);
+    padding:3px 3px;
+    line-height:1;
+  }
 
-/* espaço para a legenda não cobrir o mapa */
-body {
-  padding-bottom: 70px;
-}
+  .menu-acesso {
+    flex-direction:column;
+    align-items:stretch;
+    padding:8px;
+  }
 
-/* topbar sempre fixa */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-}
-/* BARRA SUPERIOR FIXA */
-.topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
-}
+  .menu-acesso a {
+    width:100%;
+    text-align:center;
+  }
 
-/* ESPAÇO PARA TOPO E RODAPÉ */
-body {
-  padding-top: 72px;
-  padding-bottom: 72px;
-}
+  .legenda {
+    font-size:11px;
+    padding:6px 86px 6px 8px;
+    gap:5px 10px;
+  }
 
-/* MAPA COM ÁREA DE ZOOM */
-.mapa-card {
-  overflow: hidden;
-}
-
-/* O MAPA RECEBE PINÇA */
-.mapa-wrap {
-  touch-action: none;
-  transform-origin: 0 0;
-  will-change: transform;
-}
-
-/* LEGENDA FIXA EMBAIXO */
-.legenda {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9998;
-
-  background: #fff7e8;
-  border-top: 2px solid #dec08a;
-
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px 12px;
-
-  padding: 8px 90px 8px 12px;
-  margin: 0;
-
-  font-size: 13px;
-  font-weight: 900;
-}
-
-/* ===== TOPO E LEGENDA FIXOS ===== */
-
-.topbar {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10000;
-}
-
-body {
-  padding-top: 58px;
-  padding-bottom: 68px;
-  overflow: hidden;
-}
-
-.app.full {
-  height: calc(100vh - 126px);
-  overflow: hidden;
-}
-
-.mapa-card {
-  height: 100%;
-  overflow: hidden;
-}
-
-.mapa-wrap {
-  touch-action: none;
-  transform-origin: 0 0;
-  will-change: transform;
-}
-
-.legenda {
-  position: fixed !important;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9999;
-
-  background: #fff7e8;
-  border-top: 2px solid #dec08a;
-
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px 12px;
-
-  padding: 8px 90px 8px 12px;
-  margin: 0;
-
-  font-size: 13px;
-  font-weight: 900;
+  .dot {
+    width:8px;
+    height:8px;
+    min-width:8px;
+    min-height:8px;
+  }
 }

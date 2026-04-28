@@ -21,22 +21,63 @@ function el(id) { return document.getElementById(id); }
 function moneyOrBlank(v) { return v || ''; }
 function nowLabel() { return new Date().toLocaleString('pt-BR'); }
 function padMesa(n) { return String(n).padStart(2, '0'); }
-function safeText(v) { return String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
-function normalizarTelefone(tel) { return String(tel || '').replace(/\D/g, ''); }
+
+function safeText(v) {
+  return String(v ?? '').replace(/[&<>'"]/g, c => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    "'":'&#39;',
+    '"':'&quot;'
+  }[c]));
+}
+
+function normalizarTelefone(tel) {
+  return String(tel || '').replace(/\D/g, '');
+}
+
 function linkWhatsApp(tel) {
   const numero = normalizarTelefone(tel);
   if (!numero) return '#';
   return numero.startsWith('55') ? `https://wa.me/${numero}` : `https://wa.me/55${numero}`;
 }
+
 function nomeArquivoSeguro(nome) {
-  return String(nome || 'Sem nome').trim().replace(/[\\/:*?"<>|]/g, '').replace(/\s+/g, ' ') || 'Sem nome';
+  return String(nome || 'Sem nome')
+    .trim()
+    .replace(/[\\/:*?"<>|]/g, '')
+    .replace(/\s+/g, ' ') || 'Sem nome';
 }
-function getNomeVendedor(v) { return typeof v === 'string' ? v : v.nome; }
-function getTelefoneVendedor(v) { return typeof v === 'string' ? '' : v.telefone; }
-function getVendedorPorNome(vendedores, nome) { return vendedores.find(v => getNomeVendedor(v) === nome); }
+
+function getNomeVendedor(v) {
+  return typeof v === 'string' ? v : v.nome;
+}
+
+function getTelefoneVendedor(v) {
+  return typeof v === 'string' ? '' : v.telefone;
+}
+
+function getVendedorPorNome(vendedores, nome) {
+  return vendedores.find(v => getNomeVendedor(v) === nome);
+}
+
 function mesaPadrao(numero) {
-  return { numero, status: 'livre', comprador: '', contato: '', vendedor: '', pagamento: '', comprovanteNome: '', comprovanteUrl: '', origem: '', validacao: '', lockOwner: '', lockExpires: 0 };
+  return {
+    numero,
+    status: 'livre',
+    comprador: '',
+    contato: '',
+    vendedor: '',
+    pagamento: '',
+    comprovanteNome: '',
+    comprovanteUrl: '',
+    origem: '',
+    validacao: '',
+    lockOwner: '',
+    lockExpires: 0
+  };
 }
+
 function statusVisualMesa(mesa) {
   if (!mesa) return 'livre';
   if (mesa.status === 'vendida') return 'vendida';
@@ -45,6 +86,7 @@ function statusVisualMesa(mesa) {
   if (mesa.lockExpires && Number(mesa.lockExpires) > Date.now()) return 'reservada';
   return 'livre';
 }
+
 function preencherInfo(info = {}) {
   if (el('txtValor')) el('txtValor').textContent = moneyOrBlank(info.valor);
   if (el('txtData')) el('txtData').textContent = formatarDataMapa(info.data);
@@ -52,6 +94,7 @@ function preencherInfo(info = {}) {
   if (el('txtLocal')) el('txtLocal').textContent = moneyOrBlank(info.local);
   if (el('txtAtualizacao')) el('txtAtualizacao').textContent = formatarDataHoraMapa(info.atualizacao);
 }
+
 function renderVendedoresMapa(vendedores = []) {
   const wrap = el('txtVendedores');
   if (!wrap) return;
@@ -76,23 +119,27 @@ function renderVendedoresMapa(vendedores = []) {
     const a = document.createElement('a');
     a.href = link;
     a.target = '_blank';
-
-    // 🔥 VISUAL PROFISSIONAL
     a.innerHTML = `💬 Falar com ${nome}`;
 
     wrap.appendChild(a);
   });
 }
+
 function renderMapa(mesas = [], options = {}) {
   const overlay = el('overlayMesas');
   if (!overlay) return;
+
   overlay.innerHTML = '';
+
   const map = new Map(mesas.map(m => [Number(m.numero), m]));
+
   for (let n = 1; n <= totalMesas; n++) {
     if (!pos[n]) continue;
+
     const mesa = map.get(n) || mesaPadrao(n);
     const [x, y] = pos[n];
     const visual = statusVisualMesa(mesa);
+
     const b = document.createElement('button');
     b.type = 'button';
     b.className = `mesa-btn ${visual}`;
@@ -100,30 +147,47 @@ function renderMapa(mesas = [], options = {}) {
     b.style.top = y + '%';
     b.textContent = padMesa(n);
     b.title = `Mesa ${padMesa(n)} - ${visual}`;
-    const canClick = typeof options.canClick === 'function' ? options.canClick(mesa) : false;
-    if (canClick) b.onclick = () => options.onMesaClick && options.onMesaClick(n, mesa);
-    else b.classList.add('bloqueada');
+
+    const canClick = typeof options.canClick === 'function'
+      ? options.canClick(mesa)
+      : false;
+
+    if (canClick) {
+      b.onclick = () => options.onMesaClick && options.onMesaClick(n, mesa);
+    } else {
+      b.classList.add('bloqueada');
+    }
+
     overlay.appendChild(b);
   }
 }
+
 function iniciarTimerReserva(mesa, tempoEl, onExpire) {
   let interval = null;
+
   const tick = () => {
     const restante = Number(mesa.lockExpires || 0) - Date.now();
+
     if (restante <= 0) {
       tempoEl.textContent = 'Tempo esgotado. Reserva descartada.';
       clearInterval(interval);
       onExpire && onExpire();
       return;
     }
+
     const min = Math.floor(restante / 60000);
     const seg = Math.floor((restante % 60000) / 1000);
-    tempoEl.textContent = `Tempo para concluir: ${String(min).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
+
+    tempoEl.textContent =
+      `Tempo para concluir: ${String(min).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
   };
+
   tick();
   interval = setInterval(tick, 1000);
+
   return () => clearInterval(interval);
 }
+
 function baixarTexto(nomeArquivo, conteudo) {
   const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
   const a = document.createElement('a');
@@ -132,11 +196,20 @@ function baixarTexto(nomeArquivo, conteudo) {
   a.click();
   URL.revokeObjectURL(a.href);
 }
+
 function mensagemValidacaoWhatsApp(mesa, comprador, contato) {
-  return encodeURIComponent(`Olá! Existe uma compra aguardando validação.\n\nMesa: ${padMesa(mesa)}\nComprador: ${comprador}\nContato: ${contato}\n\nVerifique o comprovante e valide a compra no sistema.`);
+  return encodeURIComponent(
+    `Olá! Existe uma compra aguardando validação.\n\n` +
+    `Mesa: ${padMesa(mesa)}\n` +
+    `Comprador: ${comprador}\n` +
+    `Contato: ${contato}\n\n` +
+    `Verifique o comprovante e valide a compra no sistema.`
+  );
 }
+
 function setLoading(btn, loading, texto = 'Aguarde...') {
   if (!btn) return;
+
   if (loading) {
     btn.dataset.oldText = btn.textContent;
     btn.textContent = texto;
@@ -228,44 +301,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* ZOOM APENAS DO MAPA */
+/* ZOOM POR PINÇA SOMENTE NO MAPA */
 document.addEventListener('DOMContentLoaded', () => {
-  const mapaWrap = document.querySelector('.mapa-wrap');
-  const btnMais = document.getElementById('zoomMais');
-  const btnMenos = document.getElementById('zoomMenos');
-  const btnReset = document.getElementById('zoomReset');
-
-  if (!mapaWrap || !btnMais || !btnMenos || !btnReset) return;
-
-  let zoom = 1;
-
-  function aplicarZoom() {
-    mapaWrap.style.width = `${zoom * 100}%`;
-    btnReset.textContent = `${Math.round(zoom * 100)}%`;
-  }
-
-  btnMais.addEventListener('click', () => {
-    zoom = Math.min(zoom + 0.25, 3);
-    aplicarZoom();
-  });
-
-  btnMenos.addEventListener('click', () => {
-    zoom = Math.max(zoom - 0.25, 1);
-    aplicarZoom();
-  });
-
-  btnReset.addEventListener('click', () => {
-    zoom = 1;
-    aplicarZoom();
-  });
-
-  aplicarZoom();
-});s
-
-/* ===== ZOOM POR PINÇA APENAS NO MAPA ===== */
-document.addEventListener('DOMContentLoaded', () => {
+  const area = document.querySelector('.mapa-card');
   const mapa = document.querySelector('.mapa-wrap');
-  if (!mapa) return;
+
+  if (!area || !mapa) return;
 
   let scale = 1;
   let posX = 0;
@@ -275,70 +316,131 @@ document.addEventListener('DOMContentLoaded', () => {
   let startDistance = 0;
   let startPosX = 0;
   let startPosY = 0;
+  let startMidX = 0;
+  let startMidY = 0;
+
+  let startPanX = 0;
+  let startPanY = 0;
   let startTouchX = 0;
   let startTouchY = 0;
 
-  function distance(t1, t2) {
-    const dx = t1.clientX - t2.clientX;
-    const dy = t1.clientY - t2.clientY;
-    return Math.sqrt(dx * dx + dy * dy);
-  }
+  const touches = new Map();
 
   function applyTransform() {
     mapa.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
   }
 
-  mapa.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 2) {
-      e.preventDefault();
+  function getPoint(e) {
+    return { x: e.clientX, y: e.clientY };
+  }
 
-      startDistance = distance(e.touches[0], e.touches[1]);
+  function getTwoPoints() {
+    return Array.from(touches.values()).slice(0, 2);
+  }
+
+  function distance(p1, p2) {
+    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+  }
+
+  function midpoint(p1, p2) {
+    return {
+      x: (p1.x + p2.x) / 2,
+      y: (p1.y + p2.y) / 2
+    };
+  }
+
+  function clampScale(v) {
+    return Math.max(1, Math.min(v, 4));
+  }
+
+  area.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse') return;
+
+    area.setPointerCapture(e.pointerId);
+    touches.set(e.pointerId, getPoint(e));
+
+    if (touches.size === 2) {
+      const [p1, p2] = getTwoPoints();
+      startDistance = distance(p1, p2);
       startScale = scale;
-    }
 
-    if (e.touches.length === 1 && scale > 1) {
-      e.preventDefault();
+      const mid = midpoint(p1, p2);
+      const rect = area.getBoundingClientRect();
 
-      startTouchX = e.touches[0].clientX;
-      startTouchY = e.touches[0].clientY;
+      startMidX = mid.x - rect.left;
+      startMidY = mid.y - rect.top;
+
       startPosX = posX;
       startPosY = posY;
     }
-  }, { passive: false });
 
-  mapa.addEventListener('touchmove', (e) => {
-    if (e.touches.length === 2) {
-      e.preventDefault();
-
-      const newDistance = distance(e.touches[0], e.touches[1]);
-      scale = startScale * (newDistance / startDistance);
-      scale = Math.max(1, Math.min(scale, 4));
-
-      if (scale <= 1.01) {
-        scale = 1;
-        posX = 0;
-        posY = 0;
-      }
-
-      applyTransform();
-    }
-
-    if (e.touches.length === 1 && scale > 1) {
-      e.preventDefault();
-
-      posX = startPosX + (e.touches[0].clientX - startTouchX);
-      posY = startPosY + (e.touches[0].clientY - startTouchY);
-
-      applyTransform();
+    if (touches.size === 1 && scale > 1) {
+      startTouchX = e.clientX;
+      startTouchY = e.clientY;
+      startPanX = posX;
+      startPanY = posY;
     }
   }, { passive: false });
 
-  mapa.addEventListener('touchend', () => {
-    if (scale <= 1.01) {
+  area.addEventListener('pointermove', (e) => {
+    if (!touches.has(e.pointerId)) return;
+
+    touches.set(e.pointerId, getPoint(e));
+
+    if (touches.size === 2) {
+      e.preventDefault();
+
+      const [p1, p2] = getTwoPoints();
+      const newDistance = distance(p1, p2);
+
+      if (!startDistance) return;
+
+      const newScale = clampScale(startScale * (newDistance / startDistance));
+      const ratio = newScale / startScale;
+
+      scale = newScale;
+
+      const mid = midpoint(p1, p2);
+      const rect = area.getBoundingClientRect();
+      const currentMidX = mid.x - rect.left;
+      const currentMidY = mid.y - rect.top;
+
+      posX = currentMidX - (startMidX - startPosX) * ratio;
+      posY = currentMidY - (startMidY - startPosY) * ratio;
+
+      applyTransform();
+      return;
+    }
+
+    if (touches.size === 1 && scale > 1) {
+      e.preventDefault();
+
+      posX = startPanX + (e.clientX - startTouchX);
+      posY = startPanY + (e.clientY - startTouchY);
+
+      applyTransform();
+    }
+  }, { passive: false });
+
+  function endPointer(e) {
+    touches.delete(e.pointerId);
+
+    if (scale <= 1.03) {
       scale = 1;
       posX = 0;
       posY = 0;
       applyTransform();
     }
-  });
+
+    if (touches.size === 1 && scale > 1) {
+      const [p] = Array.from(touches.values());
+      startTouchX = p.x;
+      startTouchY = p.y;
+      startPanX = posX;
+      startPanY = posY;
+    }
+  }
+
+  area.addEventListener('pointerup', endPointer);
+  area.addEventListener('pointercancel', endPointer);
 });

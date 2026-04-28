@@ -590,3 +590,51 @@ body {
   top: 0;
   z-index: 9999;
 }
+/* BARRA SUPERIOR FIXA */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+/* ESPAÇO PARA TOPO E RODAPÉ */
+body {
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+/* MAPA COM ÁREA DE ZOOM */
+.mapa-card {
+  overflow: hidden;
+}
+
+/* O MAPA RECEBE PINÇA */
+.mapa-wrap {
+  touch-action: none;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* LEGENDA FIXA EMBAIXO */
+.legenda {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9998;
+
+  background: #fff7e8;
+  border-top: 2px solid #dec08a;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 12px;
+
+  padding: 8px 90px 8px 12px;
+  margin: 0;
+
+  font-size: 13px;
+  font-weight: 900;
+}

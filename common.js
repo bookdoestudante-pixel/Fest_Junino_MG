@@ -261,3 +261,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
   aplicarZoom();
 });s
+
+/* PINÇA DE ZOOM APENAS NO MAPA */
+document.addEventListener('DOMContentLoaded', () => {
+  const mapa = document.querySelector('.mapa-wrap');
+  if (!mapa) return;
+
+  let scale = 1;
+  let startScale = 1;
+
+  let posX = 0;
+  let posY = 0;
+
+  let startX = 0;
+  let startY = 0;
+
+  let lastDistance = 0;
+
+  function aplicarTransform() {
+    mapa.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+  }
+
+  function distancia(t1, t2) {
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  mapa.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) {
+      lastDistance = distancia(e.touches[0], e.touches[1]);
+      startScale = scale;
+    }
+
+    if (e.touches.length === 1 && scale > 1) {
+      startX = e.touches[0].clientX - posX;
+      startY = e.touches[0].clientY - posY;
+    }
+  }, { passive: false });
+
+  mapa.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+
+      const novaDistancia = distancia(e.touches[0], e.touches[1]);
+      scale = startScale * (novaDistancia / lastDistance);
+
+      scale = Math.max(1, Math.min(scale, 3));
+
+      if (scale === 1) {
+        posX = 0;
+        posY = 0;
+      }
+
+      aplicarTransform();
+    }
+
+    if (e.touches.length === 1 && scale > 1) {
+      e.preventDefault();
+
+      posX = e.touches[0].clientX - startX;
+      posY = e.touches[0].clientY - startY;
+
+      aplicarTransform();
+    }
+  }, { passive: false });
+
+  mapa.addEventListener('touchend', () => {
+    if (scale <= 1.02) {
+      scale = 1;
+      posX = 0;
+      posY = 0;
+      aplicarTransform();
+    }
+  });
+});

@@ -17,6 +17,12 @@
 
   <main class="app full">
     <section class="mapa-card">
+
+
+
+  <div class="mapa-wrap">
+    ...
+  </div>
       <div class="mapa-wrap">
         <img src="assets/croqui.png" alt="Croqui do Festival Junino" id="croquiImg" />
 
@@ -98,5 +104,26 @@
   <script src="api.js"></script>
   <script src="common.js"></script>
   <script src="cliente.js"></script>
+
+<div class="fab-container">
+
+  <div class="fab-options" id="fabOptions">
+    <button class="fab-item" onclick="abrirTela('cliente.html')">👤</button>
+    <button class="fab-item" onclick="abrirTela('vendedor.html')">💰</button>
+    <button class="fab-item" onclick="abrirTela('admin.html')">⚙️</button>
+  </div>
+
+  <button class="fab-main" onclick="toggleFab()">+</button>
+
+</div>
+
+  <button class="fab-main" onclick="toggleFab()">+</button>
+<script>
+function toggleFab() {
+  const menu = document.getElementById("fabOptions");
+  menu.classList.toggle("active");
+}
+</script>
+</div>
 </body>
 </html>

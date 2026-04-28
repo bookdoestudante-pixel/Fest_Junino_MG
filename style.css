@@ -288,3 +288,7 @@ textarea {
   color: #8d2020;
   font-weight: 800;
 }
+
+.hidden {
+  display: none !important;
+}

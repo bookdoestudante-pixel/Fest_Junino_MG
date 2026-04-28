@@ -6,50 +6,130 @@
   <title>Festival Junino - Vendedor</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="topbar">
-  <div class="brand">
-    <strong>Festival Junino</strong>
-    <span>EE Profª Maria da Graça Nogueira</span>
+    <div class="brand">
+      <strong>Festival Junino</strong>
+      <span>EE Profª Maria da Graça Nogueira</span>
+    </div>
   </div>
-</div>
-
-<div class="menu-acesso">
-  <a class="btn-link primary" href="index.html">Cliente</a>
-  <a class="btn-link" href="vendedor.html">Sou vendedor</a>
-  <a class="btn-link" href="admin.html">Admin</a>
-</div>
 
   <section id="loginBox" class="box login-card">
     <h2>Entrar como vendedor</h2>
-    <label>Vendedor<select id="loginVendedor"></select></label>
-    <label>PIN<input id="loginPin" type="password" placeholder="PIN do vendedor" /></label>
+
+    <label>Vendedor
+      <select id="loginVendedor"></select>
+    </label>
+
+    <label>PIN
+      <input id="loginPin" type="password" placeholder="PIN do vendedor" />
+    </label>
+
     <button id="btnLogin" class="primary">Entrar</button>
     <p id="loginAviso" class="aviso"></p>
   </section>
 
   <main id="appVendedor" class="app full hidden">
     <section class="mapa-card">
-      <div class="mapa-wrap"><img src="assets/croqui.png" alt="Croqui do Festival Junino" id="croquiImg" /><div id="overlayMesas"></div><div id="overlayInfo"><div id="txtValor" class="info-img valor"></div><div id="txtData" class="info-img data"></div><div id="txtHorario" class="info-img horario"></div><div id="txtLocal" class="info-img local"></div><div id="txtAtualizacao" class="info-img atualizacao"></div><div id="txtVendedores" class="vendedores-img"></div></div></div>
-      <div class="legenda"><span><i class="dot livre"></i> Livre</span><span><i class="dot reservada"></i> Reservada</span><span><i class="dot pendente"></i> Aguardando validação</span><span><i class="dot vendida"></i> Vendida</span></div>
-      <section class="box"><h2>Compras aguardando sua validação</h2><div id="listaPendentes"></div></section>
+      <div class="mapa-wrap">
+        <img src="assets/croqui.png" alt="Croqui do Festival Junino" id="croquiImg" />
+
+        <div id="overlayMesas"></div>
+
+        <div id="overlayInfo">
+          <div id="txtValor" class="info-img valor"></div>
+          <div id="txtData" class="info-img data"></div>
+          <div id="txtHorario" class="info-img horario"></div>
+          <div id="txtLocal" class="info-img local"></div>
+          <div id="txtAtualizacao" class="info-img atualizacao"></div>
+          <div id="txtVendedores" class="vendedores-img"></div>
+        </div>
+      </div>
+
+      <div class="legenda">
+        <span><i class="dot livre"></i> Livre</span>
+        <span><i class="dot reservada"></i> Reservada</span>
+        <span><i class="dot pendente"></i> Aguardando validação</span>
+        <span><i class="dot vendida"></i> Vendida</span>
+      </div>
+
+      <section class="box">
+        <h2>Compras aguardando sua validação</h2>
+        <div id="listaPendentes"></div>
+      </section>
     </section>
   </main>
 
-  <dialog id="modalMesa"><form method="dialog" class="modal"><h2 id="tituloMesa">Mesa</h2><label>Status<select id="mesaStatus"><option value="reservada">Reservada</option><option value="vendida">Vendida</option></select></label><label>Comprador<input id="mesaComprador" /></label><label>Contato<input id="mesaContato" /></label><label>Vendedor<input id="mesaVendedor" disabled /></label><label>Pagamento<select id="mesaPagamento"><option value="">Selecione</option><option value="Pix">Pix</option><option value="Transferência">Transferência</option><option value="Espécie">Espécie</option><option value="Reservado por 24 horas">Reservado por 24 horas</option></select></label><label>Comprovante<input id="mesaComprovante" type="file" accept="image/*,.pdf" /></label><p id="nomeComprovante" class="hint"></p><p id="linkComprovante" class="hint"></p><div id="tempoReserva" class="tempo-reserva"></div><div id="validacaoBox" class="validacao-box"><p><strong>Compra aguardando sua validação.</strong></p><button id="btnValidarCompra" class="primary">Validar compra</button><button id="btnRejeitarCompra" class="danger">Rejeitar compra</button></div><div class="modal-actions"><button id="salvarMesa" value="cancel" class="primary">Salvar</button><button id="cancelarMesa" value="cancel">Cancelar</button></div><p id="avisoMesa" class="aviso"></p></form></dialog>
+  <dialog id="modalMesa">
+    <form method="dialog" class="modal">
+      <h2 id="tituloMesa">Mesa</h2>
 
-  <script src="config.js"></script><script src="api.js"></script><script src="common.js"></script><script src="vendedor.js"></script>
+      <label>Status
+        <select id="mesaStatus">
+          <option value="reservada">Reservada</option>
+          <option value="vendida">Vendida</option>
+        </select>
+      </label>
 
-<div class="fab-menu">
+      <label>Comprador
+        <input id="mesaComprador" />
+      </label>
 
-  <button id="fabBtn" class="fab-main">+</button>
+      <label>Contato
+        <input id="mesaContato" />
+      </label>
 
-  <div id="fabOptions" class="fab-options">
-    <a href="index.html">👤 Cliente</a>
-    <a href="vendedor.html">🧑‍💼 Vendedor</a>
-    <a href="admin.html">🔐 Admin</a>
+      <label>Vendedor
+        <input id="mesaVendedor" disabled />
+      </label>
+
+      <label>Pagamento
+        <select id="mesaPagamento">
+          <option value="">Selecione</option>
+          <option value="Pix">Pix</option>
+          <option value="Transferência">Transferência</option>
+          <option value="Espécie">Espécie</option>
+          <option value="Reservado por 24 horas">Reservado por 24 horas</option>
+        </select>
+      </label>
+
+      <label>Comprovante
+        <input id="mesaComprovante" type="file" accept="image/*,.pdf" />
+      </label>
+
+      <p id="nomeComprovante" class="hint"></p>
+      <p id="linkComprovante" class="hint"></p>
+      <div id="tempoReserva" class="tempo-reserva"></div>
+
+      <div id="validacaoBox" class="validacao-box">
+        <p><strong>Compra aguardando sua validação.</strong></p>
+        <button id="btnValidarCompra" class="primary">Validar compra</button>
+        <button id="btnRejeitarCompra" class="danger">Rejeitar compra</button>
+      </div>
+
+      <div class="modal-actions">
+        <button id="salvarMesa" value="cancel" class="primary">Salvar</button>
+        <button id="cancelarMesa" value="cancel">Cancelar</button>
+      </div>
+
+      <p id="avisoMesa" class="aviso"></p>
+    </form>
+  </dialog>
+
+  <div class="fab-menu">
+    <div id="fabOptions" class="fab-options">
+      <a href="index.html">👤 Cliente</a>
+      <a href="vendedor.html">🧑‍💼 Vendedor</a>
+      <a href="admin.html">🔐 Admin</a>
+    </div>
+
+    <button id="fabBtn" class="fab-main" type="button">+</button>
   </div>
 
-</div>
+  <script src="config.js"></script>
+  <script src="api.js"></script>
+  <script src="common.js"></script>
+  <script src="vendedor.js"></script>
 </body>
 </html>

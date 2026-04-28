@@ -85,7 +85,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 
 #croquiImg { width:100%; display:block; }
 
-/* 🔥 AQUI ESTÁ A CHAVE */
 #overlayMesas {
   position:absolute;
   inset:0;
@@ -95,7 +94,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 #overlayInfo {
   position:absolute;
   inset:0;
-  z-index:6; /* acima das mesas */
+  z-index:6;
   pointer-events:none;
 }
 
@@ -113,22 +112,25 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 .info-img.local { top:51%; left:78%; }
 .info-img.atualizacao { top:67.8%; left:75.8%; font-size:clamp(8px,1vw,12px); }
 
-/* MESAS */
+/* MESAS RESPONSIVAS */
 .mesa-btn {
   position:absolute;
   width:4.8%;
-  aspect-ratio:1;
+  aspect-ratio:1 / 1;
+  min-width:14px;
+  min-height:14px;
   border-radius:50%;
-  border:3px solid white;
+  border:clamp(1px, .35vw, 3px) solid white;
   transform:translate(-50%, -50%);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:clamp(8px, 1.5vw, 14px);
+  font-size:clamp(7px, 1.35vw, 14px);
   font-weight:900;
   box-shadow:0 2px 8px #0007;
   cursor:pointer;
   color:white;
+  padding:0;
 }
 
 .mesa-btn.livre { background:var(--livre); }
@@ -145,13 +147,12 @@ button:disabled { opacity:.55; cursor:not-allowed; }
   font-weight:800;
 }
 
-/* 🔥 VENDEDORES FUNCIONANDO */
 .vendedores-img {
   position:absolute;
   top:76%;
   left:73%;
   width:22%;
-  z-index:7; /* acima de tudo */
+  z-index:7;
   display:flex;
   flex-direction:column;
   gap:5px;
@@ -172,7 +173,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
   text-decoration:none;
   text-align:center;
   box-shadow:0 2px 6px rgba(0,0,0,.3);
-
   pointer-events:auto;
   cursor:pointer;
 }
@@ -182,10 +182,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
   transform:scale(1.03);
 }
 
-/* RESPONSIVO */
 @media (max-width:600px) {
-
-  /* TOPO */
   .topbar {
     flex-direction: column;
     align-items: stretch;
@@ -216,21 +213,24 @@ button:disabled { opacity:.55; cursor:not-allowed; }
     width: 100%;
   }
 
-  /* MAPA */
   .app {
-    padding: 6px;
+    padding: 4px;
+  }
+
+  .mapa-card {
+    padding: 4px;
   }
 
   .mesa-btn {
-    width: 6%;
-    border-width: 2px;
+    width: 5.2%;
+    font-size: clamp(6px, 1.9vw, 11px);
+    border-width: 1.5px;
   }
 
   .info-img {
     font-size: clamp(8px, 1.8vw, 12px);
   }
 
-  /* VENDEDORES */
   .vendedores-img {
     top: 75%;
     left: 70%;
@@ -241,10 +241,8 @@ button:disabled { opacity:.55; cursor:not-allowed; }
     font-size: 10px;
     padding: 6px;
   }
-
 }
 
-/* CORREÇÃO DO PAINEL ADMIN */
 .painel {
   display: flex;
   flex-direction: column;
@@ -341,7 +339,6 @@ textarea {
   display: none !important;
 }
 
-/* MENU NOVO */
 .menu-acesso {
   display: flex;
   justify-content: center;
@@ -356,7 +353,6 @@ textarea {
   font-weight: 800;
 }
 
-/* MOBILE */
 @media (max-width:600px) {
   .menu-acesso {
     flex-direction: column;
@@ -370,47 +366,7 @@ textarea {
   }
 }
 
-/* FAB MENU */
-.fab-menu {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
-}
-
-.fab-main {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #1d7d43;
-  color: white;
-  font-size: 28px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
-.fab-options {
-  display: none;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.fab-options a {
-  background: white;
-  padding: 10px 12px;
-  border-radius: 10px;
-  text-decoration: none;
-  color: #203449;
-  font-weight: 800;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-.fab-options.show {
-  display: flex;
-}
-
+/* FAB MENU CORRIGIDO */
 .fab-menu {
   position: fixed;
   right: 18px;
@@ -419,7 +375,6 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 10px;
 }
 
 .fab-main {
@@ -427,24 +382,39 @@ textarea {
   height: 58px;
   border-radius: 50%;
   background: #1d7d43;
-  color: white;
+  color: #fff;
   font-size: 34px;
   line-height: 1;
+  border: none;
+  cursor: pointer;
   box-shadow: 0 4px 14px rgba(0,0,0,.35);
+  transition: transform .25s ease, background .25s ease;
+}
+
+.fab-main.open {
+  transform: rotate(45deg);
+  background: #203449;
 }
 
 .fab-options {
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(15px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
 }
 
 .fab-options.show {
-  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .fab-options a {
-  background: white;
+  background: #fff;
   color: #203449;
   text-decoration: none;
   font-weight: 900;

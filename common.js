@@ -204,3 +204,22 @@ function formatarDataHoraMapa(valor) {
 
   return `${dia}/${mes}/${ano} ${hora}:${min}:${seg}`;
 }
+
+const fabBtn = document.getElementById('fabBtn');
+const fabOptions = document.getElementById('fabOptions');
+
+if (fabBtn) {
+  fabBtn.onclick = () => {
+    fabOptions.classList.toggle('show');
+  };
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const fabBtn = document.getElementById('fabBtn');
+  const fabOptions = document.getElementById('fabOptions');
+
+  if (!fabBtn || !fabOptions) return;
+
+  fabBtn.addEventListener('click', () => {
+    fabOptions.classList.toggle('show');
+  });
+});

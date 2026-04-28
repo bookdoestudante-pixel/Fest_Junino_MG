@@ -7,11 +7,18 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="topbar">
-    <div class="brand"><strong>Festival Junino</strong><span>Administração</span></div>
-    <div id="modoAviso" class="modo-aviso">🔒 Admin</div>
-    <div class="actions"><button id="btnSair">Sair</button><a class="btn-link" href="index.html">Cliente</a><a class="btn-link" href="vendedor.html">Vendedor</a></div>
+<div class="topbar">
+  <div class="brand">
+    <strong>Festival Junino</strong>
+    <span>EE Profª Maria da Graça Nogueira</span>
   </div>
+</div>
+
+<div class="menu-acesso">
+  <a class="btn-link primary" href="index.html">Cliente</a>
+  <a class="btn-link" href="vendedor.html">Sou vendedor</a>
+  <a class="btn-link" href="admin.html">Admin</a>
+</div>
 
   <section id="loginBox" class="box login-card">
     <h2>Entrar como Admin</h2>
@@ -48,6 +55,21 @@
   <button id="cancelarMesa" value="cancel">Cancelar</button>
 </div>
     <p id="avisoMesa" class="aviso"></p></form></dialog>
-  <script src="config.js"></script><script src="api.js"></script><script src="common.js"></script><script src="admin.js"></script>
+  <script src="config.js"></script>
+  <script src="api.js"></script>
+  <script src="common.js"></script>
+  <script src="admin.js"></script>
+
+<div class="fab-menu">
+
+  <button id="fabBtn" class="fab-main">+</button>
+
+  <div id="fabOptions" class="fab-options">
+    <a href="index.html">👤 Cliente</a>
+    <a href="vendedor.html">🧑‍💼 Vendedor</a>
+    <a href="admin.html">🔐 Admin</a>
+  </div>
+
+</div>
 </body>
 </html>

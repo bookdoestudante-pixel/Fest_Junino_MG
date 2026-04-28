@@ -227,3 +227,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+/* ZOOM APENAS DO MAPA */
+document.addEventListener('DOMContentLoaded', () => {
+  const mapaWrap = document.querySelector('.mapa-wrap');
+  const btnMais = document.getElementById('zoomMais');
+  const btnMenos = document.getElementById('zoomMenos');
+  const btnReset = document.getElementById('zoomReset');
+
+  if (!mapaWrap || !btnMais || !btnMenos || !btnReset) return;
+
+  let zoom = 1;
+
+  function aplicarZoom() {
+    mapaWrap.style.width = `${zoom * 100}%`;
+    btnReset.textContent = `${Math.round(zoom * 100)}%`;
+  }
+
+  btnMais.addEventListener('click', () => {
+    zoom = Math.min(zoom + 0.25, 3);
+    aplicarZoom();
+  });
+
+  btnMenos.addEventListener('click', () => {
+    zoom = Math.max(zoom - 0.25, 1);
+    aplicarZoom();
+  });
+
+  btnReset.addEventListener('click', () => {
+    zoom = 1;
+    aplicarZoom();
+  });
+
+  aplicarZoom();
+});s

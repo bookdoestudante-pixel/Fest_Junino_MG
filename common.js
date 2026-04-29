@@ -444,3 +444,23 @@ document.addEventListener('DOMContentLoaded', () => {
   area.addEventListener('pointerup', endPointer);
   area.addEventListener('pointercancel', endPointer);
 });
+
+/* COPIAR CHAVE PIX */
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.btn-copy-pix');
+  if (!btn) return;
+
+  const chave = btn.dataset.copy;
+
+  try {
+    await navigator.clipboard.writeText(chave);
+    const textoOriginal = btn.textContent;
+    btn.textContent = '✅';
+
+    setTimeout(() => {
+      btn.textContent = textoOriginal;
+    }, 1200);
+  } catch (err) {
+    alert('Não foi possível copiar. Chave Pix: ' + chave);
+  }
+});

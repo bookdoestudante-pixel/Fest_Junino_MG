@@ -685,3 +685,71 @@ dialog::backdrop {
 #appVendedor .box {
   margin-top: 14px;
 }
+/* BLOCO PIX */
+.pix-box {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px dashed #b99d70;
+  border-radius: 10px;
+  background: #fffdf5;
+}
+
+.pix-box strong {
+  display: block;
+  color: #203449;
+  margin-bottom: 8px;
+}
+
+.pix-linha {
+  display: grid;
+  grid-template-columns: 1fr 42px;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.pix-linha span {
+  background: white;
+  border: 1px solid #dec08a;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.btn-copy-pix {
+  height: 38px;
+  padding: 0;
+  border-radius: 8px;
+  background: #203449;
+  color: white;
+  font-size: 18px;
+}
+
+.pix-box small {
+  display: block;
+  font-size: 11px;
+  color: #5d4c36;
+  margin-top: 4px;
+}
+
+.pix-qr-area {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.pix-qr-area p {
+  margin: 6px 0;
+  font-weight: 800;
+  color: #203449;
+}
+
+.pix-qr {
+  width: 160px;
+  height: 160px;
+  background: white;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #dec08a;
+}

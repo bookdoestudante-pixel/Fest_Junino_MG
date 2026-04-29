@@ -83,7 +83,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 .mapa-card {
   padding:10px;
   overflow:hidden;
-  touch-action:none;
 }
 
 .mapa-wrap {
@@ -93,8 +92,11 @@ button:disabled { opacity:.55; cursor:not-allowed; }
   overflow:hidden;
   border-radius:12px;
   background:#fff;
+
   transform-origin:0 0;
   will-change:transform;
+
+  touch-action: none; /* 👉 AGORA AQUI, não no card */
 }
 
 #croquiImg { width:100%; display:block; }

@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* ZOOM POR PINÇA SOMENTE NO MAPA */
+/* ZOOM POR PINÇA SOMENTE NO MAPA - SEM BLOQUEAR CLIQUE NAS MESAS */
 document.addEventListener('DOMContentLoaded', () => {
   const area = document.querySelector('.mapa-card');
   const mapa = document.querySelector('.mapa-wrap');
@@ -356,11 +356,13 @@ document.addEventListener('DOMContentLoaded', () => {
   area.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'mouse') return;
 
-    area.setPointerCapture(e.pointerId);
     touches.set(e.pointerId, getPoint(e));
 
     if (touches.size === 2) {
+      e.preventDefault();
+
       const [p1, p2] = getTwoPoints();
+
       startDistance = distance(p1, p2);
       startScale = scale;
 
@@ -402,6 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const mid = midpoint(p1, p2);
       const rect = area.getBoundingClientRect();
+
       const currentMidX = mid.x - rect.left;
       const currentMidY = mid.y - rect.top;
 
@@ -443,24 +446,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   area.addEventListener('pointerup', endPointer);
   area.addEventListener('pointercancel', endPointer);
-});
-
-/* COPIAR CHAVE PIX */
-document.addEventListener('click', async (e) => {
-  const btn = e.target.closest('.btn-copy-pix');
-  if (!btn) return;
-
-  const chave = btn.dataset.copy;
-
-  try {
-    await navigator.clipboard.writeText(chave);
-    const textoOriginal = btn.textContent;
-    btn.textContent = '✅';
-
-    setTimeout(() => {
-      btn.textContent = textoOriginal;
-    }, 1200);
-  } catch (err) {
-    alert('Não foi possível copiar. Chave Pix: ' + chave);
-  }
 });

@@ -629,3 +629,59 @@ dialog::backdrop {
     letter-spacing: .2px;
   }
 }
+
+/* CABEÇALHO DO VENDEDOR */
+.topbar-vendedor {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  justify-content: center;
+  text-align: center;
+}
+
+.topbar-vendedor .brand {
+  text-align: center;
+}
+
+.topbar-vendedor .brand strong {
+  font-size: 22px;
+}
+
+.topbar-vendedor .brand span {
+  font-size: 15px;
+}
+
+.topbar-icons {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  display: flex;
+  gap: 10px;
+}
+
+.icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 26px;
+  background: white;
+  color: #203449;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+
+/* COMPRAS AGUARDANDO VALIDAÇÃO MAIS BAIXO */
+#listaPendentes {
+  margin-top: 8px;
+}
+
+#appVendedor .box {
+  margin-top: 14px;
+}

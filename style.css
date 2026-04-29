@@ -537,3 +537,95 @@ dialog::backdrop {
     min-height:8px;
   }
 }
+
+/* AJUSTES APENAS PARA CELULAR E TABLET */
+@media (max-width: 900px) {
+
+  /* Cabeçalho volta para uma linha só */
+  .topbar {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+  }
+
+  .brand {
+    text-align: left !important;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .brand strong {
+    font-size: 16px;
+    line-height: 1.1;
+  }
+
+  .brand span {
+    font-size: 11px;
+    line-height: 1.1;
+  }
+
+  /* Área dos ícones à direita */
+  .actions {
+    width: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 6px !important;
+  }
+
+  /* Botão SAIR vira ícone */
+  #btnSair {
+    order: 1;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    font-size: 0 !important;
+    background: #fff !important;
+    color: var(--dark) !important;
+  }
+
+  #btnSair::before {
+    content: "↩";
+    font-size: 22px;
+    font-weight: 900;
+  }
+
+  /* Nome/vendedor vira bolinha com ícone */
+  #modoAviso {
+    order: 2;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    font-size: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #ffd33d !important;
+    color: #000 !important;
+  }
+
+  #modoAviso::before {
+    content: "👤";
+    font-size: 20px;
+  }
+
+  /* Título "Compras aguardando..." menor e elegante */
+  #appVendedor .mapa-card > .box {
+    margin-top: 8px;
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+
+  #appVendedor .mapa-card > .box h2 {
+    font-size: 15px;
+    font-weight: 900;
+    margin: 0 0 8px;
+    color: var(--dark);
+    letter-spacing: .2px;
+  }
+}

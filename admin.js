@@ -69,7 +69,8 @@ function limitePorVendedor() {
 
 function contagem(nome) {
   return dados.mesas.filter(m =>
-    m.vendedor === nome && (m.status === 'vendida' || m.status === 'reservada')
+    m.vendedor === nome &&
+    (m.status === 'vendida' || m.status === 'reservada')
   ).length;
 }
 
@@ -152,11 +153,14 @@ el('btnLoginAdmin').onclick = async () => {
   }
 };
 
-el('btnSair').onclick = () => {
-  localStorage.removeItem('festival_admin_token');
-  adminToken = '';
-  location.reload();
-};
+const btnSair = el('btnSair');
+if (btnSair) {
+  btnSair.onclick = () => {
+    localStorage.removeItem('festival_admin_token');
+    adminToken = '';
+    location.reload();
+  };
+}
 
 el('salvarInfo').onclick = async () => {
   try {
@@ -194,15 +198,25 @@ el('addVendedor').onclick = async () => {
   if (!pin) return alert('Informe um PIN para o vendedor.');
 
   try {
-    await api('salvarVendedor', { token: adminToken, nome, telefone, pin });
+    setLoading(el('addVendedor'), true, '...');
+
+    await api('salvarVendedor', {
+      token: adminToken,
+      nome,
+      telefone,
+      pin
+    });
 
     el('novoVendedor').value = '';
     el('novoTelefone').value = '';
     el('novoPin').value = '';
 
     await carregar();
+    alert('Vendedor salvo com sucesso.');
   } catch (err) {
     alert(err.message);
+  } finally {
+    setLoading(el('addVendedor'), false);
   }
 };
 
@@ -357,12 +371,13 @@ async function iniciarAdmin() {
   if (intervaloAdmin) clearInterval(intervaloAdmin);
 
   intervaloAdmin = setInterval(() => {
-    carregar().catch(() => {});
+    carregar().catch(console.error);
   }, 15000);
 }
 
 if (adminToken) {
-  iniciarAdmin().catch(() => {
+  iniciarAdmin().catch(err => {
+    console.error(err);
     localStorage.removeItem('festival_admin_token');
     location.reload();
   });

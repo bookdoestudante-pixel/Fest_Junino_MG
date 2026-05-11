@@ -397,3 +397,34 @@ async function iniciarSessao() {
     el('loginAviso').textContent = err.message;
   }
 })();
+
+/* ===== AUTO LOGOUT POR INATIVIDADE ===== */
+
+let tempoInatividade = null;
+const TEMPO_LIMITE = 5 * 60 * 1000; // 5 minutos
+
+function resetarInatividade() {
+  clearTimeout(tempoInatividade);
+
+  tempoInatividade = setTimeout(() => {
+    deslogarPorInatividade();
+  }, TEMPO_LIMITE);
+}
+
+function deslogarPorInatividade() {
+  alert('Sessão encerrada por inatividade.');
+
+  localStorage.removeItem('festival_vendedor');
+
+  vendedorSessao = null;
+
+  location.reload();
+}
+
+/* Eventos que contam como atividade */
+['click', 'touchstart', 'keydown', 'scroll'].forEach(evt => {
+  document.addEventListener(evt, resetarInatividade, true);
+});
+
+/* inicia contagem ao carregar */
+resetarInatividade();
